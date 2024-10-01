@@ -1,5 +1,6 @@
 import defaultbg from "./assets/bg-default.jpg";
 import SearchBar from "./components/SearchBar";
+import WeatherCard from "./components/WeatherCard";
 const App = () => {
   return (
     <div
@@ -12,6 +13,7 @@ const App = () => {
     >
       <div>
         <SearchBar />
+        <WeatherCard />
       </div>
     </div>
   );
