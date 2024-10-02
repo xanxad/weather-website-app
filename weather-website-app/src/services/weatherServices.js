@@ -6,7 +6,7 @@ const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 export const getWeather = async (city) => {
   try {
     // Get geographical coordinates for the city
-    const geoResponse = await axios.get(`${API_BASE_URL}/get/1.0/direct`, {
+    const geoResponse = await axios.get(`${API_BASE_URL}/geo/1.0/direct`, {
       params: {
         q: city,
         limit: 1,
