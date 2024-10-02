@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
+import WeatherForecast from "./components/WeatherForecast";
+import ErrorMessage from "./components/ErrorMessage";
 import useWeather from "./hooks/useWeather";
 
 // Import the background images
@@ -63,12 +65,20 @@ function App() {
         {/* Display loading message */}
         {loading && <p className="text-white">Loading...</p>}
 
+        {/* Display error message if there's an error */}
+        {error && <ErrorMessage message={error} />}
+
         {/* Display weather data only if there's no error and weather data is available */}
         {!error && weatherData && (
           <div className="grid grid-cols-3 gap-8">
             <div className="col-span-2">
               <WeatherCard data={weatherData.list[0]} cityName={cityName} />
               {/* Updated for current weather */}
+            </div>
+
+            <div>
+              <WeatherForecast forecast={weatherData.list} />
+              {/* Pass the full forecast */}
             </div>
           </div>
         )}
