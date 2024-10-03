@@ -41,11 +41,16 @@ const WeatherForecast = ({ forecast }) => {
   const dailyForecast = getDailyForecast(forecast);
 
   return (
-    <div className="bg-black rounded-lg p-4 text-white w-full max-w-[400px]">
-      <h3 className="text-xl font-semibold mb-2">5-Day Weather Forecast</h3>
+    <div className="bg-white opacity-60 rounded-lg p-4 md:p-6 text-blue-900 w-full max-w-full md:max-w-[700px] ">
+      <h3 className="text-xl md:text-2xl font-semibold mb-2 text-center">
+        5-Day Weather Forecast
+      </h3>
       <div className="space-y-2">
         {dailyForecast.map((item, index) => (
-          <div key={index} className="flex justify-between items-center">
+          <div
+            key={index}
+            className="flex flex-row md:flex-row justify-between items-start space-x-4 md:items-center space-y-1 md:space-y-0"
+          >
             <div className="flex items-center">
               {/* Display corresponding icon */}
               {weatherIcons[item.weather[0].main] || weatherIcons["Default"]}
