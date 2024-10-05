@@ -4,7 +4,7 @@ import WeatherCard from "./components/WeatherCard";
 import WeatherForecast from "./components/WeatherForecast";
 import ErrorMessage from "./components/ErrorMessage";
 import useWeather from "./hooks/useWeather";
-import CityList from "./components/CityList"; // Import CityList
+import CityList from "./components/CityList";
 
 // Import the background images
 import sunnyBg from "./assets/bg-sunny.jpg";
@@ -37,28 +37,37 @@ function App() {
   // Get the appropriate background image
   const backgroundImage = error ? errorBg : getBackgroundImage(currentWeather);
 
-  // Automatically fetch weather data every 5 minutes
+  // Automatically fetch weather data every 10 minutes
   useEffect(() => {
-    const intervalid = setInterval(() => {
-      fetchWeather(); // Call the weather fetching function
-    }, 300000); // 300000 milliseconds = 5 minutes
+    const intervalId = setInterval(() => {
+      if (selectedCity) {
+        fetchWeather(selectedCity); // Call the weather fetching function with the selected city
+      }
+    }, 600000); // 600000 milliseconds = 10 minutes
 
     // Clear interval on component unmount
-    return () => clearInterval(intervalid);
-  }, [fetchWeather]);
+    return () => clearInterval(intervalId);
+  }, [selectedCity, fetchWeather]);
 
   const cityName = weatherData?.city?.name || "Unknown City";
 
   // Handle city selection from CityList
   const handleCitySelect = (city) => {
-    setSelectedCity(city);
+    setSelectedCity(city); // Update selected city state
     fetchWeather(city); // Fetch weather for the selected city
   };
 
   // Handle city search from SearchBar
   const handleSearch = (city) => {
-    setSelectedCity(city); // Update selectedCity when a city is searched
+    setSelectedCity(city); // Update selected city state
     fetchWeather(city); // Fetch weather for the searched city
+  };
+
+  // Handle manual refresh
+  const handleRefresh = () => {
+    if (selectedCity) {
+      fetchWeather(selectedCity); // Fetch the latest weather data for the selected city
+    }
   };
 
   return (
@@ -70,7 +79,7 @@ function App() {
     >
       <div className="max-w-4xl mx-auto">
         <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white">
+          <h1 className="text-3xl md:text-4xl font-bold text-black">
             Weather Dashboard
           </h1>
           <div className="w-full md:w-64 mt-4 md:mt-0">
@@ -92,7 +101,7 @@ function App() {
         {/* Display weather data only if there's no error and weather data is available */}
         {!error && weatherData && (
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="col-span-2 ">
+            <div className="col-span-2">
               <WeatherCard data={weatherData.list[0]} cityName={cityName} />
               {/* Updated for current weather */}
             </div>
@@ -101,6 +110,18 @@ function App() {
               <WeatherForecast forecast={weatherData.list} />
               {/* Pass the full forecast */}
             </div>
+          </div>
+        )}
+
+        {/* Refresh button */}
+        {selectedCity && (
+          <div className="flex justify-center">
+            <button
+              className="mt-6 px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-900 hover:text-white transition"
+              onClick={handleRefresh}
+            >
+              Refresh Weather
+            </button>
           </div>
         )}
       </div>

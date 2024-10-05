@@ -6,33 +6,33 @@ const useWeather = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Fetch weather data for a specific city
   const fetchWeather = useCallback(async (city) => {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await getWeather(city);
-      setWeatherData(data);
+      const data = await getWeather(city); // Call the service to get weather data
+      setWeatherData(data); // Set the weather data state
     } catch (err) {
-      setError(err.message);
+      setError("Could not retrieve weather data."); // Set an appropriate error message
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Automatically fetch weather data every 5 minutes
-
+  // Automatically fetch weather data every 10 minutes for the selected city
   useEffect(() => {
-    let intervaild;
+    let intervalId;
     if (weatherData) {
-      // Fetch weather data every 5 minutes for the current city
-      intervaild = setInterval(() => {
-        fetchWeather(weatherData.name); // Change this based on how city is stored
-      }, 300000); // Update every 5 minutes
+      intervalId = setInterval(() => {
+        fetchWeather(weatherData.city.name); // Fetch data for the current city every 10 minutes
+      }, 600000); // 10 minutes
     }
 
-    return () => clearInterval(intervaild); // Clear the interval on unmount
+    return () => clearInterval(intervalId); // Clear interval on unmount
   }, [weatherData, fetchWeather]);
+
   return { weatherData, loading, error, fetchWeather };
 };
 

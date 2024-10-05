@@ -41,11 +41,11 @@ const WeatherForecast = ({ forecast }) => {
   const dailyForecast = getDailyForecast(forecast);
 
   return (
-    <div className="bg-white opacity-60 rounded-lg p-4 md:p-6 text-blue-900 w-full max-w-full md:max-w-[700px] ">
+    <div className="bg-white opacity-60 rounded-lg p-4 md:p-6 text-blue-900 w-full max-w-full md:max-w-[700px] min-h-[400px] ">
       <h3 className="text-xl md:text-2xl font-semibold mb-2 text-center">
         5-Day Weather Forecast
       </h3>
-      <div className="space-y-2">
+      <div className="space-y-4">
         {dailyForecast.map((item, index) => (
           <div
             key={index}

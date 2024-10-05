@@ -19,11 +19,11 @@ const SearchBar = ({ onSearch }) => {
           placeholder="Search location"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full bg-white bg-opacity-20 rounded-full py-2 pl-4 pr-10 text-white placeholder-white"
+          className="w-full bg-white bg-opacity-20 rounded-full py-2 pl-4 pr-10 text-white placeholder-black"
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black"
         >
           <FaSearch />
         </button>
