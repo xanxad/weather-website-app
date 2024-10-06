@@ -32,8 +32,8 @@ const WeatherCard = ({ data, cityName }) => {
   const weatherIcon = weatherIcons[currentWeather] || weatherIcons["Default"]; // Get the appropriate weather icon
 
   return (
-    <div className="bg-white opacity-60   rounded-lg p-4 md:p-6 text-blue-900 w-full min-h-[400px]  max-w-[700px]">
-      <div className="flex flex-col  md:flex-row items-center md:items-end mb-4">
+    <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-6 text-blue-900 w-full max-w-md mx-auto">
+      <div className="flex flex-col items-center mb-6">
         {weatherIcon}
 
         <h1 className="text-8xl md:text-9xl font-bold mr-4">
@@ -56,7 +56,7 @@ const WeatherCard = ({ data, cityName }) => {
         </div>
       </div>
 
-      <div className="flex  md:grid-cols-3 gap-2 bg-white opacity-60 text-black rounded-lg px-4 py-10 ">
+      <div className="grid grid-cols-2 gap-4 text-sm px-4 py-10 ">
         <div className="flex items-center">
           <WiThermometer className="text-3xl md:text-4xl mr-2" />
           <div>

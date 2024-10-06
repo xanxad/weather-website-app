@@ -33,7 +33,6 @@ function App() {
 
   // Check if weather data exists and extract the current weather condition
   const currentWeather = weatherData?.list?.[0]?.weather[0]?.main; // Updated for forecast data
-
   // Get the appropriate background image
   const backgroundImage = error ? errorBg : getBackgroundImage(currentWeather);
 
@@ -71,59 +70,68 @@ function App() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center p-8 transition-all duration-500"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-      }}
-    >
-      <div className="max-w-4xl mx-auto">
-        <header className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-black">
-            Weather Dashboard
-          </h1>
-          <div className="w-full md:w-64 mt-4 md:mt-0">
-            <SearchBar onSearch={handleSearch} /> {/* Pass handleSearch */}
-          </div>
-        </header>
-
-        {/* Conditionally render CityList if no city is selected */}
-        {!selectedCity && (
-          <CityList className="flex flex-row" onSelectCity={handleCitySelect} />
-        )}
-
-        {/* Display loading message */}
-        {loading && <p className="text-white">Loading...</p>}
-
-        {/* Display error message if there's an error */}
-        {error && <ErrorMessage message={error} />}
-
-        {/* Display weather data only if there's no error and weather data is available */}
-        {!error && weatherData && (
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="col-span-2">
-              <WeatherCard data={weatherData.list[0]} cityName={cityName} />
-              {/* Updated for current weather */}
+    <div className="min-h-screen w-full overflow-x-hidden relative">
+      <div
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          filter: "blur(3px)",
+          transform: "scale(1.02)",
+          zIndex: -1,
+        }}
+      />
+      <div className="relative z-10 min-h-screen flex flex-col p-4 md:p-8">
+        <div className="max-w-6xl w-full mx-auto">
+          <header className="flex flex-col md:flex-row justify-between items-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 md:mb-0 drop-shadow-lg">
+              Weather Dashboard
+            </h1>
+            <div className="w-full md:w-64">
+              <SearchBar onSearch={handleSearch} /> {/* Pass handleSearch */}
             </div>
+          </header>
 
-            <div>
-              <WeatherForecast forecast={weatherData.list} />
-              {/* Pass the full forecast */}
+          {/* Conditionally render CityList if no city is selected */}
+          {!selectedCity && (
+            <CityList
+              className="flex flex-wrap justify-center gap-2 mb-8"
+              onSelectCity={handleCitySelect}
+            />
+          )}
+
+          {/* Display loading message */}
+          {loading && <p className="text-white text-center">Loading...</p>}
+
+          {/* Display error message if there's an error */}
+          {error && <ErrorMessage message={error} />}
+
+          {/* Display weather data only if there's no error and weather data is available */}
+          {!error && weatherData && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2">
+                <WeatherCard data={weatherData.list[0]} cityName={cityName} />{" "}
+                {/* Updated for current weather */}
+              </div>
+
+              <div className="lg:col-span-1">
+                <WeatherForecast forecast={weatherData.list} />
+                {/* Pass the full forecast */}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Refresh button */}
-        {selectedCity && (
-          <div className="flex justify-center">
-            <button
-              className="mt-6 px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-900 hover:text-white transition"
-              onClick={handleRefresh}
-            >
-              Refresh Weather
-            </button>
-          </div>
-        )}
+          {/* Refresh button */}
+          {selectedCity && (
+            <div className="flex justify-center mt-8">
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition shadow-lg"
+                onClick={handleRefresh}
+              >
+                Refresh Weather
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
